@@ -23,8 +23,7 @@ cd seu-repo
 2️⃣ **Instale as dependências**
 
 ```bash
-npm install cypress --save-dev
-npm install oracledb
+npm install 
 ```
 
 3️⃣ **Baixe e configure o Oracle Instant Client**

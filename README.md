@@ -91,22 +91,30 @@ async function conectarDB(query) {
 const oracledb = require('oracledb');
 oracledb.initOracleClient({ libDir: './cypress/support/clientDB/instantclient_23_8' });
 
-async function runQuery(query) {
-  const connection = await oracledb.getConnection({
-    user: 'USUARIO',
-    password: 'SENHA',
-    connectString: 'ENDERECO/TNS'
-  });
-  const result = await connection.execute(query);
-  await connection.close();
-  return result;
-}
+async function conectarDB(query) {
 
-module.exports = (on, config) => {
-  on('task', {
-    executeQuery: (query) => runQuery(query)
-  });
-};
+
+    const connection = await oracledb.getConnection({
+        user: "system",
+        password: '123456',
+        connectString: "(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)\
+        (HOST = DESKTOP-KDLUVDQ)(PORT = 1521))\
+        (CONNECT_DATA =(SERVER = DEDICATED)\
+        (SERVICE_NAME = XE)))"
+    });
+    console.log('banco conectado com sucesso')
+    return result = await connection.execute(query);
+
+    await connection.close();
+
+}
+module.exports = (on)=>{
+    on('task', {
+        SQL: (query)=>{
+            return conectarDB(query)
+        }
+    })
+}
 ```
 
 ## ▶️ Executando os testes
@@ -115,8 +123,22 @@ module.exports = (on, config) => {
 npx cypress open
 ```
 ou
-```bash
-npx cypress run
+```Arquivo de teste
+describe('template spec', () => {
+  it('passes', () => {
+    const sql = 'select * from pessoas'
+    cy.task('SQL', 'select * from pessoas')
+      .then((res) => {
+        cy.log(res.rows[6].BAIRRO)
+        cy.log(res.rows[6].NOME)
+        cy.log(res.rows[6].ESTADO)
+        cy.log(res.rows[6].ENDERECO)
+        cy.log(res.rows[6].CPF)
+        cy.log(res.rows[6].RG)
+        
+      })
+  })
+})
 ```
 
 ## ⚠️ Observações

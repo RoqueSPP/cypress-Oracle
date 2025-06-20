@@ -127,7 +127,7 @@ ou
 describe('template spec', () => {
   it('passes', () => {
     const sql = 'select * from pessoas'
-    cy.task('SQL', 'select * from pessoas')
+    cy.task('SQL', sql)
       .then((res) => {
         cy.log(res.rows[6].BAIRRO)
         cy.log(res.rows[6].NOME)

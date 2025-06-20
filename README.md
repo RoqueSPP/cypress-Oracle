@@ -118,6 +118,22 @@ module.exports = (on)=>{
 }
 ```
 
+## 📝 Exemplo de Task no Cypress (`cypress/plugins/index.js`)
+
+```js
+const { defineConfig } = require("cypress");
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+
+      return require('.\\cypress\\plugins\\index.js')(on, config)
+      // implement node event listeners here
+    },
+  },
+});
+
+```
 ## ▶️ Executando os testes
 
 ```bash

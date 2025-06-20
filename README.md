@@ -24,8 +24,10 @@ cd seu-repo
 
 ```bash
 npm install
-npm install cypress --save-dev
-npm install oracle
+```
+##Abra o cypress para criar as pastas padrão##
+```bash
+npx cypress open
 ```
 
 3️⃣ **Baixe e configure o Oracle Instant Client**
@@ -118,7 +120,7 @@ module.exports = (on)=>{
 }
 ```
 
-## 📝 Exemplo de Task no Cypress (`cypress/plugins/index.js`)
+## 📝 Exemplo de Task no Cypress (`cypress/cypress.config.js`)
 
 ```js
 const { defineConfig } = require("cypress");
@@ -136,10 +138,7 @@ module.exports = defineConfig({
 ```
 ## ▶️ Executando os testes
 
-```bash
-npx cypress open
-```
-ou
+
 ```Arquivo de teste
 describe('template spec', () => {
   it('passes', () => {

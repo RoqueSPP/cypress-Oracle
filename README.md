@@ -25,7 +25,7 @@ cd seu-repo
 ```bash
 npm install
 ```
-##Abra o cypress para criar as pastas padrão##
+**Abra o cypress para criar as pastas padrão**
 ```bash
 npx cypress open
 ```

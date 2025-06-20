@@ -1,0 +1,129 @@
+
+# 📘 Projeto Cypress + OracleDB
+
+Automação de testes E2E com integração direta com banco de dados **Oracle** usando **Node.js** e **Cypress**.
+
+## ✅ Pré-requisitos
+
+- Node.js (v16 ou superior recomendado)
+- npm
+- Oracle Instant Client
+- Banco de Dados Oracle (acesso/credenciais)
+- Git (opcional)
+
+## 📦 Instalação
+
+1️⃣ **Clone o projeto**
+
+```bash
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
+```
+
+2️⃣ **Instale as dependências**
+
+```bash
+npm install cypress --save-dev
+npm install oracledb
+```
+
+3️⃣ **Baixe e configure o Oracle Instant Client**
+
+- Faça o download do **Oracle Instant Client**: https://www.oracle.com/database/technologies/instant-client.html
+- Extraia para uma pasta local do projeto, por exemplo:
+
+```
+cypress/support/clientDB/instantclient_23_8
+```
+
+4️⃣ **Configure o caminho do Instant Client no código**
+
+```js
+const oracledb = require('oracledb');
+
+oracledb.initOracleClient({ libDir: './cypress/support/clientDB/instantclient_23_8' });
+```
+
+5️⃣ **Configurar conexão no arquivo `.env` ou diretamente no código**
+
+```js
+const connection = await oracledb.getConnection({
+  user: 'SEU_USUARIO',
+  password: 'SUA_SENHA',
+  connectString: 'HOST:PORTA/SERVICO'
+});
+```
+
+## ⚙️ Estrutura do Projeto
+
+```
+📁 cypress
+ ┣ 📁 plugins
+ ┃ ┗ 📄 index.js     # Conexão com Oracle e tasks personalizadas
+ ┣ 📁 support
+ ┃ ┗ 📁 clientDB     # Oracle Instant Client
+ ┗ 📄 e2e            # Seus testes Cypress
+```
+
+## 🖥️ Exemplo de Conexão com OracleDB
+
+```js
+const oracledb = require('oracledb');
+
+oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+oracledb.initOracleClient({ libDir: './cypress/support/clientDB/instantclient_23_8' });
+
+async function conectarDB(query) {
+  const connection = await oracledb.getConnection({
+    user: "USUARIO",
+    password: 'SENHA',
+    connectString: "ENDERECO/TNS"
+  });
+  const result = await connection.execute(query);
+  await connection.close();
+  return result;
+}
+```
+
+## 📝 Exemplo de Task no Cypress (`cypress/plugins/index.js`)
+
+```js
+const oracledb = require('oracledb');
+oracledb.initOracleClient({ libDir: './cypress/support/clientDB/instantclient_23_8' });
+
+async function runQuery(query) {
+  const connection = await oracledb.getConnection({
+    user: 'USUARIO',
+    password: 'SENHA',
+    connectString: 'ENDERECO/TNS'
+  });
+  const result = await connection.execute(query);
+  await connection.close();
+  return result;
+}
+
+module.exports = (on, config) => {
+  on('task', {
+    executeQuery: (query) => runQuery(query)
+  });
+};
+```
+
+## ▶️ Executando os testes
+
+```bash
+npx cypress open
+```
+ou
+```bash
+npx cypress run
+```
+
+## ⚠️ Observações
+
+- Verifique compatibilidade da versão do **Oracle Instant Client** com o seu OracleDB.
+- Caso necessário, instale variáveis de ambiente específicas (como `LD_LIBRARY_PATH` no Linux).
+
+## 📄 Licença
+
+Este projeto está licenciado sob [MIT License](LICENSE).

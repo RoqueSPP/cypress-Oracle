@@ -16,7 +16,7 @@ Automação de testes E2E com integração direta com banco de dados **Oracle** 
 1️⃣ **Clone o projeto**
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
+git clone [https://github.com/RoqueSPP/cypress-Oracle.git]
 cd seu-repo
 ```
 

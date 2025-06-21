@@ -82,9 +82,8 @@ async function conectarDB(query) {
     password: 'SENHA',
     connectString: "ENDERECO/TNS"
   });
-  const result = await connection.execute(query);
+  return result = await connection.execute(query);
   await connection.close();
-  return result;
 }
 ```
 
